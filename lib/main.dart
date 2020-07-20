@@ -1,9 +1,15 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 void main() {
-  return runApp(
-    MaterialApp(
+  return runApp(DiceRoller());
+}
+
+class DiceRoller extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.red,
         appBar: AppBar(
@@ -13,8 +19,8 @@ void main() {
         ),
         body: DicePage(),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class DicePage extends StatefulWidget {
@@ -25,23 +31,29 @@ class DicePage extends StatefulWidget {
 class _DicePageState extends State<DicePage> {
   int leftDiceNum = 1;
   int rightDiceNum = 1;
+  final player = AudioCache();
 
   @override
   Widget build(BuildContext context) {
+    player.load('rollingDice.wav');
     return Center(
       child: Row(
         children: <Widget>[
           Expanded(
-            child: FlatButton(
+            child: MaterialButton(
+              enableFeedback: false,
               onPressed: () {
+                player.play('rollingDice.wav');
                 rollDice();
               },
               child: Image.asset('images/dice$leftDiceNum.png'),
             ),
           ),
           Expanded(
-            child: FlatButton(
+            child: MaterialButton(
+              enableFeedback: false,
               onPressed: () {
+                player.play('rollingDice.wav');
                 rollDice();
               },
               child: Image.asset('images/dice$rightDiceNum.png'),
